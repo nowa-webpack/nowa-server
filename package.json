@@ -1,0 +1,51 @@
+{
+  "name": "nowa-server",
+  "version": "1.0.0",
+  "description": "nowa webpack dev server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:nowa-webpack/nowa-server.git"
+  },
+  "keywords": [
+    "nowa",
+    "webpack",
+    "server"
+  ],
+  "author": "gbk <ck0123456@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/nowa-webpack/nowa-server#readme",
+  "peerDependencies": {
+    "nowa": "~1.0.0"
+  },
+  "dependencies": {
+    "babel-core": "~6.7.7",
+    "babel-loader": "~6.2.4",
+    "chalk": "^1.1.3",
+    "css-loader": "~0.23.1",
+    "export-css-loader": "~1.1.1",
+    "express": "^4.13.4",
+    "file-loader": "~0.8.5",
+    "ip": "^1.1.2",
+    "json-loader": "~0.5.4",
+    "less": "~2.6.1",
+    "less-loader": "~2.2.3",
+    "parseurl": "~1.3.1",
+    "portscanner": "^1.0.0",
+    "react": "~15.0.2",
+    "react-transform-catch-errors": "~1.0.2",
+    "react-transform-hmr": "~1.0.4",
+    "redbox-react": "~1.2.3",
+    "send": "~0.13.2",
+    "style-loader": "~0.13.1",
+    "stylus-loader": "~2.0.0",
+    "svg2react-loader": "~1.0.3",
+    "url-loader": "~0.5.7",
+    "webpack": "~1.13.0",
+    "webpack-dev-middleware": "~1.6.1",
+    "webpack-hot-middleware": "~2.10.0"
+  }
+}
