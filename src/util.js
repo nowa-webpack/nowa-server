@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2016-05-02 17:15:36
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-05-05 22:47:46
+* @Last Modified time: 2016-05-12 09:58:30
 */
 
 'use strict';
@@ -33,7 +33,6 @@ var util = {
       return './' + path.join.apply(path, params);
     } else {
       return [
-        // util.relPath('..', 'node_modules', 'webpack-hot-middleware', 'client') + '?reload=true&noInfo=true',
         'webpack-hot-middleware/client?reload=true&noInfo=true',
         './' + path.join.apply(path, params)
       ]
@@ -55,27 +54,25 @@ var util = {
     return entries;
   },
 
-  // parse vars to plain kv object
+  // parse vars for DefinePlugin
   parseVars: function(vars) {
     var newVars = {};
     for (var key in vars) {
-      newVars[key] = vars[key].length ? vars[key][0] : vars[key];
+      newVars[key] = JSON.stringify(vars[key]);
     }
     return newVars;
   },
 
   // make filename suffix by vars
-  suffixByVars: function (vars) {
+  suffixByVars: function (vars, buildvars) {
     if (vars) {
       var suffix = '';
       for (var key in vars) {
-        if (vars[key].length) {
-          var value = vars[key][0];
+        var value = vars[key];
 
-          // filename suffix will not contain `/`
-          if (value !== undefined) {
-            suffix += '-' + value.toString().replace(/\//, '');
-          }
+        // filename suffix will not contain `/`
+        if (value !== undefined && buildvars[key] && buildvars[key].length > 1) {
+          suffix += '-' + value.toString().replace(/\//, '');
         }
       }
       return suffix;

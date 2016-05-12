@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-05-05 22:44:38
+* @Last Modified time: 2016-05-12 09:58:52
 */
 
 'use strict';
@@ -35,13 +35,14 @@ module.exports = {
     [ '-p, --port [port]', 'server port, default to `3000`', 3000 ],
     [ '-e  --entry [file]', 'app entry, default to `app/app.js`', 'app/app.js' ],
     [ '    --pages', 'add multi-page entries' ],
-    [ '    --vars', 'build varibles' ],
+    [ '    --vars', 'runtime context varibles' ],
+    [ '    --buildvars', 'build varibles' ],
     [ '-r, --proxy', 'dev proxy hostname or mappings' ],
     [ '-k, --keepcss', 'keep flush css files' ],
     [ '-l, --lazyload', 'disable hot reload' ],
     [ '-h, --https', 'start https server' ],
     [ '    --externals', 'webpack external varibles' ],
-    [ '-o, --loose', 'use babel es2015 loose mode to transform codes' ],
+    [ '-o, --loose', 'use babel es2015 loose mode to transform codes' ]
   ],
 
   action: function(options) {
@@ -53,6 +54,7 @@ module.exports = {
     var entry = options.entry;
     var pages = options.pages;
     var vars = options.vars;
+    var buildvars = options.buildvars;
     var proxy = options.proxy;
     var keepcss = options.keepcss;
     var lazyload = options.lazyload;
@@ -100,7 +102,7 @@ module.exports = {
       entry: pages ? util.makePageEntries(lazyload, src, entries) : entries,
       output: {
         path: util.cwdPath(dist),
-        filename: '[name]' + util.suffixByVars(vars) + '.js',
+        filename: '[name]' + util.suffixByVars(vars, buildvars) + '.js',
         publicPath: '/'
       },
       plugins: plugins,
