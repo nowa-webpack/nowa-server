@@ -20,5 +20,5 @@ $ npm i nowa-server -g
 ## Usage
 
 ```bash
-$ nowa help server
+$ nowa server --help
 ```
