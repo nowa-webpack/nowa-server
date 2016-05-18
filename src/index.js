@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-05-12 09:58:52
+* @Last Modified time: 2016-05-18 15:44:47
 */
 
 'use strict';
@@ -17,6 +17,7 @@ var webpackHotMiddleware = require('webpack-hot-middleware');
 var chalk = require('chalk');
 var ip = require('ip');
 var portscanner = require('portscanner');
+var httpProxy = require('express-http-proxy');
 
 var util = require('./util');
 var loader = require('./loader');
