@@ -1,6 +1,6 @@
 {
   "name": "nowa-server",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "nowa webpack dev server",
   "main": "index.js",
   "scripts": {
@@ -19,7 +19,7 @@
   "license": "MIT",
   "homepage": "https://github.com/nowa-webpack/nowa-server#readme",
   "peerDependencies": {
-    "nowa": "~1.0.0"
+    "nowa": "~0.1.0"
   },
   "dependencies": {
     "babel-core": "~6.7.7",
