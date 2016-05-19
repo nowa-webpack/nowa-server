@@ -13,8 +13,8 @@ nowa webpack dev server
 ## Install
 
 ```bash
-$ npm i nowa
-$ npm i nowa-server -g
+$ npm i nowa -g
+$ nowa install server
 ```
 
 ## Usage

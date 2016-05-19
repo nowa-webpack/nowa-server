@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-05-18 15:44:47
+* @Last Modified time: 2016-05-18 17:26:23
 */
 
 'use strict';
@@ -99,7 +99,7 @@ module.exports = {
     !lazyload && plugins.push(new webpack.HotModuleReplacementPlugin());
 
     // compiler
-    var compiler = {
+    var compiler = preProcess({
       entry: pages ? util.makePageEntries(lazyload, src, entries) : entries,
       output: {
         path: util.cwdPath(dist),
@@ -126,7 +126,7 @@ module.exports = {
       module: {
         loaders: loader(options)
       }
-    };
+    });
     var webpackCompiler = webpack(compiler);
 
     // dev server
@@ -253,3 +253,13 @@ module.exports = {
     }
   }
 };
+
+// compiler pre-process
+function preProcess(config) {
+  var newConfig;
+  try {
+    newConfig = require(util.cwdPath('webpack.config.js'))(config);
+  } catch (e) {
+  }
+  return newConfig || config;
+}
