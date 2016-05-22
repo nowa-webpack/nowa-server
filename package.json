@@ -43,6 +43,7 @@
     "redbox-react": "~1.2.3",
     "send": "~0.13.2",
     "style-loader": "~0.13.1",
+    "stylus": "^0.54.5",
     "stylus-loader": "~2.0.0",
     "svg2react-loader": "~1.0.3",
     "url-loader": "~0.5.7",
