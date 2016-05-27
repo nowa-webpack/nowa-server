@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-05-26 13:30:17
+* @Last Modified time: 2016-05-27 23:13:43
 */
 
 'use strict';
@@ -43,7 +43,8 @@ module.exports = {
     [ '-l, --lazyload', 'disable hot reload' ],
     [ '-h, --https', 'start https server' ],
     [ '    --externals', 'webpack external varibles' ],
-    [ '-o, --loose', 'use babel es2015 loose mode to transform codes' ]
+    [ '-o, --open', 'open url in default browser' ],
+    [ '    --loose', 'use babel es2015 loose mode to transform codes' ]
   ],
 
   action: function(options) {
@@ -61,6 +62,7 @@ module.exports = {
     var lazyload = options.lazyload;
     var httpsOpt = options.https;
     var loose = options.loose;
+    var open = options.open;
     var externals = options.externals || {
       'react': 'window.React',
       'react-dom': 'window.ReactDOM || window.React'
@@ -231,6 +233,11 @@ module.exports = {
         }
         var address = (httpsOpt ? 'https' : 'http') + '://' + ipAddr + ':' + port;
         console.log('Listening at ' + chalk.green.bold(address));
+
+        // open url in default browser
+        if (open) {
+          util.open(address);
+        }
       });
     });
 

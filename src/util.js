@@ -2,13 +2,14 @@
 * @Author: gbk
 * @Date:   2016-05-02 17:15:36
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-05-12 09:58:30
+* @Last Modified time: 2016-05-27 23:12:49
 */
 
 'use strict';
 
 var fs = require('fs');
 var path = require('path');
+var spawn = require('child_process').spawn;
 
 var util = {
 
@@ -123,6 +124,26 @@ var util = {
         cert: fs.readFileSync(httpsOpt.cert)
       };
     }
+  },
+
+  // open url in default browser
+  open: function(url) {
+    var command;
+    switch (process.platform) {
+      case 'darwin':
+        command = 'open';
+        break;
+      case 'win32':
+        command = 'explorer.exe';
+        break;
+      case 'linux':
+        command = 'xdg-open';
+        break;
+      default:
+        console.error('Can not open browser');
+        return;
+    }
+    spawn(command, [ url ]);
   }
 };
 
