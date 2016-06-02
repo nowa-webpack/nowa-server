@@ -2,10 +2,12 @@
 * @Author: gbk
 * @Date:   2016-05-02 22:07:46
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-05-05 22:23:13
+* @Last Modified time: 2016-06-01 22:04:42
 */
 
 'use strict';
+
+var os = require('os');
 
 var util = require('./util');
 
@@ -27,7 +29,8 @@ module.exports = function(options) {
         'transform-es3-member-expression-literals',
         'transform-es3-property-literals'
       ]),
-      presets: presets
+      presets: presets,
+      cacheDirectory: os.tmpdir()
     } : {
       plugins: [
         util.babel('plugin', 'add-module-exports'),
@@ -47,7 +50,8 @@ module.exports = function(options) {
           }
         ]
       ],
-      presets: presets
+      presets: presets,
+      cacheDirectory: os.tmpdir()
     }
   }, {
     test: /\.css$/,
@@ -66,7 +70,8 @@ module.exports = function(options) {
     loader: 'babel',
     include: srcPath,
     query: {
-      presets: presets
+      presets: presets,
+      cacheDirectory: os.tmpdir()
     }
   }, {
     test: /\.svg$/,

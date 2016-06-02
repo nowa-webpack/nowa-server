@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-05-27 23:13:43
+* @Last Modified time: 2016-06-02 13:46:25
 */
 
 'use strict';
@@ -125,6 +125,7 @@ module.exports = {
         ]
       },
       externals: externals,
+      cache: true,
       module: {
         loaders: loader(options)
       }
