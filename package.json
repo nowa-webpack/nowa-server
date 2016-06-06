@@ -1,6 +1,6 @@
 {
   "name": "nowa-server",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "nowa webpack dev server",
   "main": "index.js",
   "scripts": {
