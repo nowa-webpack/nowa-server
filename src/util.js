@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2016-05-02 17:15:36
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-05-27 23:12:49
+* @Last Modified time: 2016-06-06 14:10:04
 */
 
 'use strict';
@@ -89,7 +89,7 @@ var util = {
         return util.babel(type, n);
       });
     } else {
-      return util.relPath('..', '..', 'nowa', 'node_modules', [
+      return util.relPath('..', 'node_modules', [
         'babel',
         type,
         name
