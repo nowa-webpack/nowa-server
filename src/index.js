@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-06-02 13:46:25
+* @Last Modified time: 2016-06-06 19:15:17
 */
 
 'use strict';
@@ -213,12 +213,13 @@ module.exports = {
     var ipAddr = ip.address();
     portscanner.findAPortNotInUse(port, port + 10, ipAddr, function(err, aPort) {
       if (err || !aPort) {
-        console.error('Port ' + port + ' in use. exit now!');
+        console.error(chalk.red.bold('Port ' + port + ' in use. exit now!'));
         return process.exit(1);
       }
       if (aPort != port) {
-        console.log('Port ' + port + ' in use, Change to ' + aPort);
+        console.log(chalk.red.bold('Port ' + port + ' in use, Change to ' + aPort));
         port = aPort;
+        open = true;
       }
 
       // create https server
