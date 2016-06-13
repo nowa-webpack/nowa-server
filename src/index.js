@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-06-06 19:15:17
+* @Last Modified time: 2016-06-13 13:01:03
 */
 
 'use strict';
@@ -85,130 +85,6 @@ module.exports = {
       }
     }
 
-    // entries
-    var entries = {
-      app: util.makeEntry(lazyload, src, entry)
-    };
-
-    // plugins
-    var plugins = [
-      new webpack.NoErrorsPlugin(),
-      new webpack.SourceMapDevToolPlugin({
-        columns: false
-      })
-    ];
-    vars && plugins.push(new webpack.DefinePlugin(util.parseVars(vars)));
-    !lazyload && plugins.push(new webpack.HotModuleReplacementPlugin());
-
-    // compiler
-    var compiler = preProcess({
-      entry: pages ? util.makePageEntries(lazyload, src, entries) : entries,
-      output: {
-        path: util.cwdPath(dist),
-        filename: '[name]' + util.suffixByVars(vars, buildvars) + '.js',
-        publicPath: '/'
-      },
-      plugins: plugins,
-      resolve: {
-        modulesDirectories: [
-          'node_modules',
-          util.relPath('..', 'node_modules')
-        ],
-        alias: {
-          i18n: util.cwdPath(src, 'i18n')
-        }
-      },
-      resolveLoader: {
-        modulesDirectories: [
-          util.relPath('..', 'node_modules'),
-          'node_modules'
-        ]
-      },
-      externals: externals,
-      cache: true,
-      module: {
-        loaders: loader(options)
-      }
-    });
-    var webpackCompiler = webpack(compiler);
-
-    // dev server
-    var app = express();
-
-    // some pre-process
-    app.use(function(req, res, next) {
-
-      // deal with proxied request
-      if (req.url.indexOf('/') !== 0) {
-        req.url = '/' + req.url.split('/').slice(3).join('/');
-      }
-
-      // exclude css request with entry name
-      if (!keepcss) {
-        var match = /\/([^\/]+)\.css$/.exec(req.url);
-        if (match && (match[1] in entries)) {
-          res.setHeader('Content-Type', 'text/css; charset=utf-8');
-          return res.end();
-        }
-      }
-
-      // support cors
-      res.setHeader('Access-Control-Allow-Origin', '*');
-
-      next();
-    });
-
-    // favicon
-    app.use(favicon(util.cwdPath('favicon.ico')));
-
-    // dev middleware
-    var devMiddlewareOpts = {
-      publicPath: '/',
-      stats: {
-        chunks: false
-      }
-    };
-    var devMiddleware = webpackDevMiddleware(webpackCompiler, devMiddlewareOpts);
-    if (pages) {
-      app.use(function() { // for hot replace middleware when multi-entries changed
-        devMiddleware.apply(this, arguments);
-      });
-    } else {
-      app.use(devMiddleware);
-    }
-
-    // hot middleware
-    if (!lazyload) {
-      var hotMiddleware = webpackHotMiddleware(webpackCompiler);
-      if (pages) {
-        app.use(function() { // for hot replace middleware when multi-entries changed
-          hotMiddleware.apply(this, arguments);
-        });
-      } else {
-        app.use(hotMiddleware);
-      }
-    }
-
-    // static server
-    app.use(serveStatic('html'));
-    app.use(serveStatic(util.cwdPath(src, 'lib')));
-    app.use(serveStatic(dist));
-    app.use(serveStatic('.'));
-
-    // http proxy
-    var httpProxyOpts =  {
-      forwardPath: function(req) {
-        return url.parse(req.originalUrl).path;
-      }
-    };
-    if (typeof proxy === 'string') {
-      app.use('*', httpProxy(proxy, httpProxyOpts));
-    } else if (typeof proxy === 'object') {
-      for (var pattern in proxy) {
-        app.use(pattern, httpProxy(proxy[pattern], httpProxyOpts));
-      }
-    }
-
     // find a usable ip address
     var ipAddr = ip.address();
     portscanner.findAPortNotInUse(port, port + 10, ipAddr, function(err, aPort) {
@@ -221,6 +97,137 @@ module.exports = {
         port = aPort;
         open = true;
       }
+      var address = (httpsOpt ? 'https' : 'http') + '://' + ipAddr + ':' + port;
+
+      // entries
+      var entries = {
+        app: util.makeEntry({
+          lazyload: lazyload,
+          address: address
+        }, src, entry)
+      };
+
+      // plugins
+      var plugins = [
+        new webpack.NoErrorsPlugin(),
+        new webpack.SourceMapDevToolPlugin({
+          columns: false
+        })
+      ];
+      vars && plugins.push(new webpack.DefinePlugin(util.parseVars(vars)));
+      !lazyload && plugins.push(new webpack.HotModuleReplacementPlugin());
+
+      // compiler
+      var compiler = preProcess({
+        entry: pages ? util.makePageEntries({
+          lazyload: lazyload,
+          address: address
+        }, src, entries) : entries,
+        output: {
+          path: util.cwdPath(dist),
+          filename: '[name]' + util.suffixByVars(vars, buildvars) + '.js',
+          publicPath: '/'
+        },
+        plugins: plugins,
+        resolve: {
+          modulesDirectories: [
+            'node_modules',
+            util.relPath('..', 'node_modules')
+          ],
+          alias: {
+            i18n: util.cwdPath(src, 'i18n')
+          }
+        },
+        resolveLoader: {
+          modulesDirectories: [
+            util.relPath('..', 'node_modules'),
+            'node_modules'
+          ]
+        },
+        externals: externals,
+        cache: true,
+        module: {
+          loaders: loader(options)
+        }
+      });
+      var webpackCompiler = webpack(compiler);
+
+      // dev server
+      var app = express();
+
+      // some pre-process
+      app.use(function(req, res, next) {
+
+        // deal with proxied request
+        if (req.url.indexOf('/') !== 0) {
+          req.url = '/' + req.url.split('/').slice(3).join('/');
+        }
+
+        // exclude css request with entry name
+        if (!keepcss) {
+          var match = /\/([^\/]+)\.css$/.exec(req.url);
+          if (match && (match[1] in entries)) {
+            res.setHeader('Content-Type', 'text/css; charset=utf-8');
+            return res.end();
+          }
+        }
+
+        // support cors
+        res.setHeader('Access-Control-Allow-Origin', '*');
+
+        next();
+      });
+
+      // favicon
+      app.use(favicon(util.cwdPath('favicon.ico')));
+
+      // dev middleware
+      var devMiddlewareOpts = {
+        publicPath: '/',
+        stats: {
+          chunks: false
+        }
+      };
+      var devMiddleware = webpackDevMiddleware(webpackCompiler, devMiddlewareOpts);
+      if (pages) {
+        app.use(function() { // for hot replace middleware when multi-entries changed
+          devMiddleware.apply(this, arguments);
+        });
+      } else {
+        app.use(devMiddleware);
+      }
+
+      // hot middleware
+      if (!lazyload) {
+        var hotMiddleware = webpackHotMiddleware(webpackCompiler);
+        if (pages) {
+          app.use(function() { // for hot replace middleware when multi-entries changed
+            hotMiddleware.apply(this, arguments);
+          });
+        } else {
+          app.use(hotMiddleware);
+        }
+      }
+
+      // static server
+      app.use(serveStatic('html'));
+      app.use(serveStatic(util.cwdPath(src, 'lib')));
+      app.use(serveStatic(dist));
+      app.use(serveStatic('.'));
+
+      // http proxy
+      var httpProxyOpts =  {
+        forwardPath: function(req) {
+          return url.parse(req.originalUrl).path;
+        }
+      };
+      if (typeof proxy === 'string') {
+        app.use('*', httpProxy(proxy, httpProxyOpts));
+      } else if (typeof proxy === 'object') {
+        for (var pattern in proxy) {
+          app.use(pattern, httpProxy(proxy[pattern], httpProxyOpts));
+        }
+      }
 
       // create https server
       if (httpsOpt) {
@@ -232,8 +239,8 @@ module.exports = {
       app.listen(port, function(err) {
         if (err) {
           console.log(err);
+          return;
         }
-        var address = (httpsOpt ? 'https' : 'http') + '://' + ipAddr + ':' + port;
         console.log('Listening at ' + chalk.green.bold(address));
 
         // open url in default browser
@@ -241,26 +248,26 @@ module.exports = {
           util.open(address);
         }
       });
-    });
 
-    if (pages) {
+      if (pages) {
 
-      // watching dir changes to update entry
-      util.watch(util.cwdPath(src, 'pages'), function() {
-        var newEntries = {
-          app: util.makeEntry(lazyload, src, entry)
-        };
-        util.makePageEntries(lazyload, src, newEntries);
-        if (JSON.stringify(newEntries) !== JSON.stringify(compiler.entry)) {
-          compiler.entry = newEntries;
-          webpackCompiler = webpack(compiler);
-          devMiddleware = webpackDevMiddleware(webpackCompiler, devMiddlewareOpts);
-          if (!lazyload) {
-            hotMiddleware = webpackHotMiddleware(webpackCompiler);
+        // watching dir changes to update entry
+        util.watch(util.cwdPath(src, 'pages'), function() {
+          var newEntries = {
+            app: util.makeEntry(lazyload, src, entry)
+          };
+          util.makePageEntries(lazyload, src, newEntries);
+          if (JSON.stringify(newEntries) !== JSON.stringify(compiler.entry)) {
+            compiler.entry = newEntries;
+            webpackCompiler = webpack(compiler);
+            devMiddleware = webpackDevMiddleware(webpackCompiler, devMiddlewareOpts);
+            if (!lazyload) {
+              hotMiddleware = webpackHotMiddleware(webpackCompiler);
+            }
           }
-        }
-      });
-    }
+        });
+      }
+    });
   }
 };
 

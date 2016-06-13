@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2016-05-02 17:15:36
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-06-06 14:10:04
+* @Last Modified time: 2016-06-13 13:46:37
 */
 
 'use strict';
@@ -28,26 +28,27 @@ var util = {
   },
 
   // make a webpack entry
-  makeEntry: function(lazyload) {
+  makeEntry: function(options) {
     var params = Array.prototype.slice.call(arguments, 1);
-    if (lazyload) {
+    if (options.lazyload) {
       return './' + path.join.apply(path, params);
     } else {
+      var address = encodeURIComponent(options.address + '/__webpack_hmr');
       return [
-        'webpack-hot-middleware/client?reload=true&noInfo=true',
+        'webpack-hot-middleware/client?reload=true&noInfo=true&path=' + address,
         './' + path.join.apply(path, params)
       ]
     }
   },
 
   // make all valid pages as webpack entries
-  makePageEntries: function(lazyload, src, entries) {
+  makePageEntries: function(options, src, entries) {
     var pages = fs.readdirSync(path.join(src, 'pages'));
     pages.forEach(function(page) {
       try {
         var entry = path.join(src, 'pages', page, 'index.js');
         if (fs.statSync(entry).isFile()) {
-          entries[page] = util.makeEntry(lazyload, src, 'pages', page, 'index.js');
+          entries[page] = util.makeEntry(options, src, 'pages', page, 'index.js');
         }
       } catch (e) {
       }
