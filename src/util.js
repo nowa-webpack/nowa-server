@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2016-05-02 17:15:36
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-06-13 13:46:37
+* @Last Modified time: 2016-06-18 21:41:44
 */
 
 'use strict';
@@ -73,7 +73,7 @@ var util = {
         var value = vars[key];
 
         // filename suffix will not contain `/`
-        if (value !== undefined && buildvars[key] && buildvars[key].length > 1) {
+        if (value !== undefined && buildvars && buildvars[key] && buildvars[key].length > 1) {
           suffix += '-' + value.toString().replace(/\//, '');
         }
       }
