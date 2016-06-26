@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-06-13 13:01:03
+* @Last Modified time: 2016-06-26 11:31:31
 */
 
 'use strict';
@@ -254,9 +254,15 @@ module.exports = {
         // watching dir changes to update entry
         util.watch(util.cwdPath(src, 'pages'), function() {
           var newEntries = {
-            app: util.makeEntry(lazyload, src, entry)
+            app: util.makeEntry({
+              lazyload: lazyload,
+              address: address
+            }, src, entry)
           };
-          util.makePageEntries(lazyload, src, newEntries);
+          util.makePageEntries({
+            lazyload: lazyload,
+            address: address
+          }, src, newEntries);
           if (JSON.stringify(newEntries) !== JSON.stringify(compiler.entry)) {
             compiler.entry = newEntries;
             webpackCompiler = webpack(compiler);
