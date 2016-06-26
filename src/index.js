@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-06-26 11:31:31
+* @Last Modified time: 2016-06-26 21:43:13
 */
 
 'use strict';
@@ -44,7 +44,9 @@ module.exports = {
     [ '-h, --https', 'start https server' ],
     [ '    --externals', 'webpack external varibles' ],
     [ '-o, --open', 'open url in default browser' ],
-    [ '    --loose', 'use babel es2015 loose mode to transform codes' ]
+    [ '    --loose', 'use babel es2015 loose mode to transform codes' ],
+    [ '    --historyApiFallback', 'history api fallback mappings' ],
+    [ '-m, --mockapi', 'mock data api mappings' ]
   ],
 
   action: function(options) {
@@ -67,6 +69,8 @@ module.exports = {
       'react': 'window.React',
       'react-dom': 'window.ReactDOM || window.React'
     };
+    var historyApiFallback = options.historyApiFallback;
+    var mockapi = options.mockapi;
 
     // enable es2015 loose mode
     if (loose) {
@@ -206,6 +210,27 @@ module.exports = {
           });
         } else {
           app.use(hotMiddleware);
+        }
+      }
+
+      // mock data api
+      if (mockapi) {
+        for (let rule in mockapi) {
+          app.use(rule, function(req, res, next) {
+            var modulePath = require.resolve(util.cwdPath(mockapi[rule]));
+            delete require.cache[modulePath];
+            require(modulePath)(req, res, next);
+          });
+        }
+      }
+
+      // history api fallback rewrites
+      if (historyApiFallback) {
+        for (let rule in historyApiFallback) {
+          app.use(rule, function(req, res, next) {
+            req._parsedUrl.pathname = historyApiFallback[rule];
+            next();
+          });
         }
       }
 
