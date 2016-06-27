@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-06-26 21:43:13
+* @Last Modified time: 2016-06-27 14:57:28
 */
 
 'use strict';
@@ -228,7 +228,15 @@ module.exports = {
       if (historyApiFallback) {
         for (let rule in historyApiFallback) {
           app.use(rule, function(req, res, next) {
-            req._parsedUrl.pathname = historyApiFallback[rule];
+            var url = historyApiFallback[rule];
+            if (req.params && url.indexOf('{{') !== -1) {
+
+              // params replace
+              url = url.replace(/\{\{([^}]+)\}\}/g, function(p, p1) {
+                return req.params[p1] || '';
+              });
+            }
+            req._parsedUrl.pathname = url;
             next();
           });
         }
