@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2016-05-02 17:15:36
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-06-18 21:41:44
+* @Last Modified time: 2016-06-30 15:24:24
 */
 
 'use strict';
@@ -90,7 +90,7 @@ var util = {
         return util.babel(type, n);
       });
     } else {
-      return util.relPath('..', 'node_modules', [
+      return require.resolve([
         'babel',
         type,
         name
