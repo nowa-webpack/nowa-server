@@ -2,12 +2,13 @@
 * @Author: gbk
 * @Date:   2016-05-02 22:07:46
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-06-01 22:04:42
+* @Last Modified time: 2016-07-12 21:41:20
 */
 
 'use strict';
 
 var os = require('os');
+var path = require('path');
 
 var util = require('./util');
 
@@ -19,6 +20,7 @@ module.exports = function(options) {
     'stage-0',
     'react'
   ]);
+  var cacheDirectory = path.join(os.tmpdir(), options.loose ? 'babel-loose' : 'babel-strict');
   return [{
     test: /\.jsx?$/,
     loader: 'babel',
@@ -30,7 +32,7 @@ module.exports = function(options) {
         'transform-es3-property-literals'
       ]),
       presets: presets,
-      cacheDirectory: os.tmpdir()
+      cacheDirectory: cacheDirectory
     } : {
       plugins: [
         util.babel('plugin', 'add-module-exports'),
@@ -51,7 +53,7 @@ module.exports = function(options) {
         ]
       ],
       presets: presets,
-      cacheDirectory: os.tmpdir()
+      cacheDirectory: cacheDirectory
     }
   }, {
     test: /\.css$/,
@@ -71,7 +73,7 @@ module.exports = function(options) {
     include: srcPath,
     query: {
       presets: presets,
-      cacheDirectory: os.tmpdir()
+      cacheDirectory: cacheDirectory
     }
   }, {
     test: /\.svg$/,
