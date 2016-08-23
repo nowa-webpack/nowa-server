@@ -1,8 +1,8 @@
 /*
 * @Author: gbk
 * @Date:   2016-05-02 22:07:46
-* @Last Modified by:   caoke
-* @Last Modified time: 2016-07-27 11:28:34
+* @Last Modified by:   gbk
+* @Last Modified time: 2016-08-23 17:46:27
 */
 
 'use strict';
@@ -14,6 +14,13 @@ var util = require('./util');
 
 module.exports = function(options) {
   var srcPath = util.cwdPath(options.src);
+  if (options.includes) {
+    srcPath = [
+      srcPath
+    ].concat(options.includes.map(function(include) {
+      return util.cwdPath(include);
+    }));
+  }
   var preLoader = options.keepcss ? 'style!export-css?remove=false' : 'style';
   var presets = util.babel('preset', [
     'es2015',

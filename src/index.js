@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-06-30 15:39:23
+* @Last Modified time: 2016-08-23 19:35:09
 */
 
 'use strict';
@@ -46,7 +46,8 @@ module.exports = {
     [ '-o, --open', 'open url in default browser' ],
     [ '    --loose', 'use babel es2015 loose mode to transform codes' ],
     [ '    --historyApiFallback', 'history api fallback mappings' ],
-    [ '    --mockapi', 'mock data api mappings' ]
+    [ '    --mockapi', 'mock data api mappings' ],
+    [ '    --includes', 'loader should include paths' ],
   ],
 
   action: function(options) {
@@ -71,6 +72,7 @@ module.exports = {
     };
     var historyApiFallback = options.historyApiFallback;
     var mockapi = options.mockapi;
+    var includes = options.includes;
 
     // enable es2015 loose mode
     if (loose) {
