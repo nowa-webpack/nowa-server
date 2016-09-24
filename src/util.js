@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2016-05-02 17:15:36
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-06-30 15:24:24
+* @Last Modified time: 2016-09-24 23:32:01
 */
 
 'use strict';
@@ -90,11 +90,22 @@ var util = {
         return util.babel(type, n);
       });
     } else {
-      return require.resolve([
-        'babel',
-        type,
-        name
-      ].join('-'));
+      if (typeof name === 'object') {
+        return [
+          require.resolve([
+            'babel',
+            type,
+            name.name
+          ].join('-')),
+          name.options
+        ];
+      } else {
+        return require.resolve([
+          'babel',
+          type,
+          name
+        ].join('-'));
+      }
     }
   },
 

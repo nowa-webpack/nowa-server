@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-08-23 19:35:09
+* @Last Modified time: 2016-09-24 23:34:48
 */
 
 'use strict';
@@ -48,6 +48,7 @@ module.exports = {
     [ '    --historyApiFallback', 'history api fallback mappings' ],
     [ '    --mockapi', 'mock data api mappings' ],
     [ '    --includes', 'loader should include paths' ],
+    [ '    --polyfill', 'use core-js to do polyfills' ],
   ],
 
   action: function(options) {
@@ -73,23 +74,7 @@ module.exports = {
     var historyApiFallback = options.historyApiFallback;
     var mockapi = options.mockapi;
     var includes = options.includes;
-
-    // enable es2015 loose mode
-    if (loose) {
-
-      // modify es2015 presets, add `loose: true` option
-      var es2015Plugins = require(util.babel('preset', 'es2015')).plugins;
-      for (var i = 0; i < es2015Plugins.length; i++) {
-        if (Array.isArray(es2015Plugins[i])) {
-          es2015Plugins[i][1].loose = true;
-        } else {
-          es2015Plugins[i] = [
-            es2015Plugins[i],
-            { loose: true }
-          ];
-        }
-      }
-    }
+    var polyfill = !!options.polyfill;
 
     // find a usable ip address
     var ipAddr = ip.address();
