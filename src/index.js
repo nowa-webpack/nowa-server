@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-09-24 23:34:48
+* @Last Modified time: 2016-10-14 10:20:54
 */
 
 'use strict';
@@ -102,7 +102,7 @@ module.exports = {
       var plugins = [
         new webpack.NoErrorsPlugin(),
         new webpack.SourceMapDevToolPlugin({
-          columns: false
+          module: false
         })
       ];
       vars && plugins.push(new webpack.DefinePlugin(util.parseVars(vars)));
