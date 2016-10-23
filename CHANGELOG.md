@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.6.0 (2016-10-23)
+
+* [feature] Support font files(woff,woff2,ttf,otf).
+
 ## 1.5.0 (2016-10-14)
 
 * [feature] Use eval mode to build sourcemap.
