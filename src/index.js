@@ -33,6 +33,7 @@ module.exports = {
   options: [
     [ '-s, --src <dir>', 'source directory, default to `src`', 'src' ],
     [ '-d, --dist <dir>', 'build directory, default to `dist`', 'dist' ],
+    [ '    --host <host>', 'server host default to first private ip'],
     [ '-p, --port <port>', 'server port, default to `3000`', 3000 ],
     [ '-e  --entry <file>', 'app entry, default to `app/app.js`', 'app/app.js' ],
     [ '    --pages', 'add multi-page entries' ],
@@ -77,7 +78,7 @@ module.exports = {
     var polyfill = !!options.polyfill;
 
     // find a usable ip address
-    var ipAddr = ip.address();
+    var ipAddr = host?host:ip.address();
     portscanner.findAPortNotInUse(port, port + 10, ipAddr, function(err, aPort) {
       if (err || !aPort) {
         console.error(chalk.red.bold('Port ' + port + ' in use. exit now!'));
