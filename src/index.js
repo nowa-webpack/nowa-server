@@ -76,6 +76,7 @@ module.exports = {
     var mockapi = options.mockapi;
     var includes = options.includes;
     var polyfill = !!options.polyfill;
+    var host =  options.host;
 
     // find a usable ip address
     var ipAddr = host?host:ip.address();
