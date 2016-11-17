@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.6.1 (2016-11-17)
+
+* [fix] Add missing babel-runtime for non-lazyload mode.
+
+> https://github.com/nowa-webpack/nowa-server/issues/8
+
 ## 1.6.0 (2016-10-23)
 
 * [feature] Support font files(woff,woff2,ttf,otf).

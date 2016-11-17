@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2016-05-02 22:07:46
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-10-23 23:57:06
+* @Last Modified time: 2016-11-17 20:02:22
 */
 
 'use strict';
@@ -55,11 +55,19 @@ module.exports = function(options) {
       cacheDirectory: cacheDirectory,
       babelrc: false
     } : {
-      plugins: [
-        util.babel('plugin', 'add-module-exports'),
-        [
-          util.babel('plugin', 'react-transform'),
-          {
+      plugins: util.babel('plugin', [
+        'add-module-exports',
+        {
+          name: 'transform-runtime',
+          options: {
+            polyfill: !!options.polyfill,
+            helpers: false,
+            regenerator: true
+          }
+        },
+        {
+          name: 'react-transform',
+          options: {
             transforms: [
               {
                 transform: 'react-transform-hmr',
@@ -71,8 +79,8 @@ module.exports = function(options) {
               }
             ]
           }
-        ]
-      ],
+        }
+      ]),
       presets: presets,
       cacheDirectory: cacheDirectory,
       babelrc: false
