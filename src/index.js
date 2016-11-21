@@ -1,8 +1,8 @@
 /*
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
-* @Last Modified by:   gbk
-* @Last Modified time: 2016-10-14 10:20:54
+* @Last Modified by:   tommytroylin
+* @Last Modified time: 2016-11-21 19:08:32
 */
 
 'use strict';
@@ -127,7 +127,8 @@ module.exports = {
           ],
           alias: {
             i18n: util.cwdPath(src, 'i18n')
-          }
+          },
+          extensions: ['', '.js', '.jsx']
         },
         resolveLoader: {
           root: [
