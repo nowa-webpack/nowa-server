@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.7.0 (2016-11-22)
+
+* [feature] Add jsx extension support.
+
+> https://github.com/nowa-webpack/nowa-server/pull/9
+
 ## 1.6.1 (2016-11-17)
 
 * [fix] Add missing babel-runtime for non-lazyload mode.
