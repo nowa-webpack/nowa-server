@@ -1,8 +1,8 @@
 /*
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
-* @Last Modified by:   tommytroylin
-* @Last Modified time: 2016-11-21 19:08:32
+* @Last Modified by:   gbk
+* @Last Modified time: 2016-12-11 20:36:41
 */
 
 'use strict';
@@ -49,6 +49,7 @@ module.exports = {
     [ '    --mockapi', 'mock data api mappings' ],
     [ '    --includes', 'loader should include paths' ],
     [ '    --polyfill', 'use core-js to do polyfills' ],
+    [ '    --alias', 'path alias' ],
   ],
 
   action: function(options) {
@@ -75,6 +76,14 @@ module.exports = {
     var mockapi = options.mockapi;
     var includes = options.includes;
     var polyfill = !!options.polyfill;
+    var alias = (function(aliasMap) {
+      for (var key in aliasMap) {
+        aliasMap[key] = util.cwdPath(src, aliasMap[key]);
+      }
+      return aliasMap;
+    })(options.alias || {
+      i18n: 'i18n'
+    });
 
     // find a usable ip address
     var ipAddr = ip.address();
@@ -125,9 +134,7 @@ module.exports = {
             util.relPath('..', 'node_modules'),
             util.relPath('..', '..')
           ],
-          alias: {
-            i18n: util.cwdPath(src, 'i18n')
-          },
+          alias: alias,
           extensions: ['', '.js', '.jsx']
         },
         resolveLoader: {

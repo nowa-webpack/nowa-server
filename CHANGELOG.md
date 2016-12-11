@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.8.0 (2016-12-11)
+
+* [feature] Add alias option for module path alias defination.
+
+> https://github.com/nowa-webpack/nowa-server/issues/10
+
 ## 1.7.0 (2016-11-22)
 
 * [feature] Add jsx extension support.
