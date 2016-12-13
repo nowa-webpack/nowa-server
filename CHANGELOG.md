@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.1 (2016-12-13)
+
+* [fix] Fix alias bug.
+
 ## 1.8.0 (2016-12-11)
 
 * [feature] Add alias option for module path alias defination.

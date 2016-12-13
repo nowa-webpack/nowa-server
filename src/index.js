@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-12-11 20:36:41
+* @Last Modified time: 2016-12-13 13:32:01
 */
 
 'use strict';
@@ -81,7 +81,7 @@ module.exports = {
         aliasMap[key] = util.cwdPath(src, aliasMap[key]);
       }
       return aliasMap;
-    })(options.alias || {
+    })(typeof options.alias === 'object' ? options.alias : {
       i18n: 'i18n'
     });
 
