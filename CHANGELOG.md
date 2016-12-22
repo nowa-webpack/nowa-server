@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.8.3 (2016-12-22)
+
+* [fix] Update less version.
+
 ## 1.8.2 (2016-12-22)
 
 * [fix] Update stylus-loader version for supporting Nodejs 6+.
