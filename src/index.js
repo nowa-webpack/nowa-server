@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-12-13 13:32:01
+* @Last Modified time: 2016-12-26 19:11:15
 */
 
 'use strict';
@@ -118,6 +118,12 @@ module.exports = {
       !lazyload && plugins.push(new webpack.HotModuleReplacementPlugin());
 
       // compiler
+      var resolveRoot = [
+        util.relPath('..', 'node_modules')
+      ];
+      if (process.cwd() !== util.relPath('..', '..', '..')) {
+        resolveRoot.push(util.relPath('..', '..'));
+      }
       var compiler = preProcess({
         entry: pages ? util.makePageEntries({
           lazyload: lazyload,
@@ -130,18 +136,12 @@ module.exports = {
         },
         plugins: plugins,
         resolve: {
-          root: [
-            util.relPath('..', 'node_modules'),
-            util.relPath('..', '..')
-          ],
+          root: resolveRoot,
           alias: alias,
           extensions: ['', '.js', '.jsx']
         },
         resolveLoader: {
-          root: [
-            util.relPath('..', 'node_modules'),
-            util.relPath('..', '..')
-          ]
+          root: resolveRoot
         },
         externals: externals,
         cache: true,

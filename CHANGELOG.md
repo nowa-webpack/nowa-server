@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.9.0 (2016-12-26)
+
+* [fix] Fix root dependency mismatch bug.
+
+> https://github.com/nowa-webpack/nowa/issues/30
+
 ## 1.8.3 (2016-12-22)
 
 * [fix] Update less version.
