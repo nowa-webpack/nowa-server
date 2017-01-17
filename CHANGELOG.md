@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.9.1 (2017-01-17)
+
+* [fix] Fix loader found error issue.
+
+> https://github.com/nowa-webpack/nowa-server/issues/11
+
 ## 1.9.0 (2016-12-26)
 
 * [fix] Fix root dependency mismatch bug.
