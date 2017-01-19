@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-12-26 19:11:15
+* @Last Modified time: 2017-01-19 21:31:32
 */
 
 'use strict';
@@ -23,6 +23,7 @@ var util = require('./util');
 var loader = require('./loader');
 var favicon = require('./favicon');
 var serveStatic = require('./static');
+var injectsHtml = require('./injects');
 var pkg = require('../package.json');
 
 // plugin defination
@@ -50,6 +51,7 @@ module.exports = {
     [ '    --includes', 'loader should include paths' ],
     [ '    --polyfill', 'use core-js to do polyfills' ],
     [ '    --alias', 'path alias' ],
+    [ '    --injects', 'inject js into html' ],
   ],
 
   action: function(options) {
@@ -84,6 +86,7 @@ module.exports = {
     })(typeof options.alias === 'object' ? options.alias : {
       i18n: 'i18n'
     });
+    var injects = options.injects || [];
 
     // find a usable ip address
     var ipAddr = ip.address();
@@ -236,6 +239,10 @@ module.exports = {
           });
         }
       }
+
+      // html injects server
+      app.use(injectsHtml('html', injects));
+      app.use(injectsHtml('.', injects));
 
       // static server
       app.use(serveStatic('html'));

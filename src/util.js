@@ -1,8 +1,8 @@
 /*
 * @Author: gbk
 * @Date:   2016-05-02 17:15:36
-* @Last Modified by:   tommytroylin
-* @Last Modified time: 2016-11-21 19:10:07
+* @Last Modified by:   gbk
+* @Last Modified time: 2017-01-19 21:06:48
 */
 
 'use strict';
@@ -164,7 +164,16 @@ var util = {
         return;
     }
     spawn(command, [ url ]);
-  }
+  },
+
+  // test if the path is a directory
+  isDirectory: function(file) {
+    try {
+      return fs.statSync(file).isDirectory();
+    } catch (e) {
+      return false;
+    }
+  },
 };
 
 module.exports = util;

@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2016-03-28 16:42:29
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-05-26 13:42:05
+* @Last Modified time: 2017-01-19 20:39:39
 */
 
 'use strict';
@@ -13,13 +13,15 @@ var path = require('path');
 var parseUrl = require('parseurl');
 var send = require('send');
 
+var util = require('./util');
+
 // simple version for express.static
 // thanks to https://github.com/expressjs/serve-static
 module.exports = function(root, opts) {
   opts = opts || {};
   opts.root = path.resolve(root);
 
-  if (isDirectory(opts.root)) {
+  if (util.isDirectory(opts.root)) {
 
     // root must be a directory
     return function(req, res, next) {
@@ -39,23 +41,14 @@ module.exports = function(root, opts) {
           next();
         })
         .pipe(res);
-    }
+    };
 
   } else {
 
     // is not, do nothing
-    return function (req, res, next) {
+    return function(req, res, next) {
       next();
     };
 
   }
 };
-
-// test if the path is a directory
-function isDirectory(file) {
-  try {
-    return fs.statSync(file).isDirectory();
-  } catch (e) {
-    return false;
-  }
-}
