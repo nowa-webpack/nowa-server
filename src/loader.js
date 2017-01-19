@@ -124,5 +124,12 @@ module.exports = function(options) {
     test: /\.(png|jpe?g|gif|woff|woff2|ttf|otf)$/,
     loader: 'url-loader',
     include: srcPath
+  },{
+    test: /\.tsx?$/,
+    loader: 'ts-loader',
+    include: srcPath,
+    query: {
+      transpileOnly: true
+    }
   }];
 };
