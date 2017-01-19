@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.10.0 (2017-01-19)
+
+* [feature] Support html injection.
+* [feature] Add host option to support custom host.
+* [feature] Add TypeScript support.
+
+> https://github.com/nowa-webpack/nowa-server/issues/14
+
+> https://github.com/nowa-webpack/nowa-server/pull/7
+
+> https://github.com/nowa-webpack/nowa-server/pull/15
+
 ## 1.9.1 (2017-01-17)
 
 * [fix] Fix loader found error issue.
