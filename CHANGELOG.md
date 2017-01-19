@@ -1,5 +1,47 @@
 # Changelog
 
+## 1.9.1 (2017-01-17)
+
+* [fix] Fix loader found error issue.
+
+> https://github.com/nowa-webpack/nowa-server/issues/11
+
+## 1.9.0 (2016-12-26)
+
+* [fix] Fix root dependency mismatch bug.
+
+> https://github.com/nowa-webpack/nowa/issues/30
+
+## 1.8.3 (2016-12-22)
+
+* [fix] Update less version.
+
+## 1.8.2 (2016-12-22)
+
+* [fix] Update stylus-loader version for supporting Nodejs 6+.
+
+## 1.8.1 (2016-12-13)
+
+* [fix] Fix alias bug.
+
+## 1.8.0 (2016-12-11)
+
+* [feature] Add alias option for module path alias defination.
+
+> https://github.com/nowa-webpack/nowa-server/issues/10
+
+## 1.7.0 (2016-11-22)
+
+* [feature] Add jsx extension support.
+
+> https://github.com/nowa-webpack/nowa-server/pull/9
+
+## 1.6.1 (2016-11-17)
+
+* [fix] Add missing babel-runtime for non-lazyload mode.
+
+> https://github.com/nowa-webpack/nowa-server/issues/8
+
 ## 1.6.0 (2016-10-23)
 
 * [feature] Support font files(woff,woff2,ttf,otf).

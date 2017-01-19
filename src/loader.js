@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2016-05-02 22:07:46
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-10-23 23:57:06
+* @Last Modified time: 2017-01-17 21:02:17
 */
 
 'use strict';
@@ -21,7 +21,7 @@ module.exports = function(options) {
       return util.cwdPath(include);
     }));
   }
-  var preLoader = options.keepcss ? 'style!export-css?remove=false' : 'style';
+  var preLoader = options.keepcss ? 'style-loader!export-css-loader?remove=false' : 'style-loader';
   var presets = util.babel('preset', [
     {
       name: 'es2015',
@@ -35,7 +35,7 @@ module.exports = function(options) {
   var cacheDirectory = path.join(os.tmpdir(), options.loose ? 'babel-loose' : 'babel-strict');
   return [{
     test: /\.jsx?$/,
-    loader: 'babel',
+    loader: 'babel-loader',
     include: srcPath,
     query: options.lazyload ? {
       plugins: util.babel('plugin', [
@@ -55,11 +55,19 @@ module.exports = function(options) {
       cacheDirectory: cacheDirectory,
       babelrc: false
     } : {
-      plugins: [
-        util.babel('plugin', 'add-module-exports'),
-        [
-          util.babel('plugin', 'react-transform'),
-          {
+      plugins: util.babel('plugin', [
+        'add-module-exports',
+        {
+          name: 'transform-runtime',
+          options: {
+            polyfill: !!options.polyfill,
+            helpers: false,
+            regenerator: true
+          }
+        },
+        {
+          name: 'react-transform',
+          options: {
             transforms: [
               {
                 transform: 'react-transform-hmr',
@@ -71,33 +79,33 @@ module.exports = function(options) {
               }
             ]
           }
-        ]
-      ],
+        }
+      ]),
       presets: presets,
       cacheDirectory: cacheDirectory,
       babelrc: false
     }
   }, {
     test: /\.js$/,
-    loader: 'es3ify',
+    loader: 'es3ify-loader',
     include: function(path) {
       return ~path.indexOf('babel-runtime');
     }
   }, {
     test: /\.css$/,
-    loader: preLoader + '!css?sourceMap',
+    loader: preLoader + '!css-loader?sourceMap',
     include: srcPath
   }, {
     test: /\.less$/,
-    loader: preLoader + '!css?sourceMap!less',
+    loader: preLoader + '!css-loader?sourceMap!less-loader',
     include: srcPath
   }, {
     test: /\.styl$/,
-    loader: preLoader + '!css?sourceMap!stylus',
+    loader: preLoader + '!css-loader?sourceMap!stylus-loader',
     include: srcPath
   }, {
     test: /\.svg$/,
-    loader: 'babel',
+    loader: 'babel-loader',
     include: srcPath,
     query: {
       presets: presets,
@@ -106,15 +114,15 @@ module.exports = function(options) {
     }
   }, {
     test: /\.svg$/,
-    loader: 'svg2react',
+    loader: 'svg2react-loader',
     include: srcPath
   }, {
     test: /\.json$/,
-    loader: 'json',
+    loader: 'json-loader',
     include: srcPath
   }, {
     test: /\.(png|jpe?g|gif|woff|woff2|ttf|otf)$/,
-    loader: 'url',
+    loader: 'url-loader',
     include: srcPath
   }];
 };

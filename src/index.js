@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2016-10-14 10:20:54
+* @Last Modified time: 2016-12-26 19:11:15
 */
 
 'use strict';
@@ -50,6 +50,7 @@ module.exports = {
     [ '    --mockapi', 'mock data api mappings' ],
     [ '    --includes', 'loader should include paths' ],
     [ '    --polyfill', 'use core-js to do polyfills' ],
+    [ '    --alias', 'path alias' ],
   ],
 
   action: function(options) {
@@ -77,6 +78,14 @@ module.exports = {
     var includes = options.includes;
     var polyfill = !!options.polyfill;
     var host =  options.host;
+    var alias = (function(aliasMap) {
+      for (var key in aliasMap) {
+        aliasMap[key] = util.cwdPath(src, aliasMap[key]);
+      }
+      return aliasMap;
+    })(typeof options.alias === 'object' ? options.alias : {
+      i18n: 'i18n'
+    });
 
     // find a usable ip address
     var ipAddr = host?host:ip.address();
@@ -111,6 +120,12 @@ module.exports = {
       !lazyload && plugins.push(new webpack.HotModuleReplacementPlugin());
 
       // compiler
+      var resolveRoot = [
+        util.relPath('..', 'node_modules')
+      ];
+      if (process.cwd() !== util.relPath('..', '..', '..')) {
+        resolveRoot.push(util.relPath('..', '..'));
+      }
       var compiler = preProcess({
         entry: pages ? util.makePageEntries({
           lazyload: lazyload,
@@ -123,19 +138,12 @@ module.exports = {
         },
         plugins: plugins,
         resolve: {
-          root: [
-            util.relPath('..', 'node_modules'),
-            util.relPath('..', '..')
-          ],
-          alias: {
-            i18n: util.cwdPath(src, 'i18n')
-          }
+          root: resolveRoot,
+          alias: alias,
+          extensions: ['', '.js', '.jsx']
         },
         resolveLoader: {
-          root: [
-            util.relPath('..', 'node_modules'),
-            util.relPath('..', '..')
-          ]
+          root: resolveRoot
         },
         externals: externals,
         cache: true,
