@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2017-01-19 20:20:58
 * @Last Modified by:   gbk
-* @Last Modified time: 2017-01-23 14:28:10
+* @Last Modified time: 2017-01-23 15:04:13
 */
 
 'use strict';
@@ -37,7 +37,15 @@ module.exports = function(root, injects) {
         var file = path.join(root, pathname);
         try {
           var content = fs.readFileSync(file).toString();
-          content = content.replace(/<body([^>]*)>/, '<body$1>' + injects);
+          if (/<\/title>/i.test(content)) {
+            content = content.replace(/<\/title>/i, '</title>' + injects);
+          } else if (/<link([^>]*)>/i.test(content)) {
+            content = content.replace(/<link([^>]*)>/i, injects + '<link$1>');
+          } else if (/<body([^>]*)>/i.test(content)) {
+            content = content.replace(/<body([^>]*)>/i, '<body$1>' + injects);
+          } else {
+            content = injects + content;
+          }
           res.end(content);
         } catch (e) {
           next();
