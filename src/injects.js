@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2017-01-19 20:20:58
 * @Last Modified by:   gbk
-* @Last Modified time: 2017-01-19 21:43:37
+* @Last Modified time: 2017-01-23 14:28:10
 */
 
 'use strict';
@@ -18,8 +18,11 @@ var util = require('./util');
 module.exports = function(root, injects) {
   root = path.resolve(root);
   injects = (injects || []).map(function(inject) {
-    var script = (resolveCwd(inject) || inject).replace(process.cwd(), '');
-    return '<script src="' + script + '"></script>';
+    var res = (resolveCwd(inject) || inject).replace(process.cwd(), '');
+    if (/\.css$/.test(res)) {
+      return '<link rel="stylesheet" href="' + res + '" />';
+    }
+    return '<script src="' + res + '"></script>';
   }).join('');
 
   if (util.isDirectory(root) && injects.length) {

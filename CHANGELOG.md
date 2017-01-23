@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.10.1 (2017-01-23)
+
+* [feature] Support html injection for css resources.
+
 ## 1.10.0 (2017-01-19)
 
 * [feature] Support html injection.
