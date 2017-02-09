@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.10.3 (2017-02-09)
+
+* [improve] Add inject point.
+
+> https://github.com/nowa-webpack/nowa-server/pull/16
+
 ## 1.10.2 (2017-01-23)
 
 * [improve] Improve injection algorithm.
