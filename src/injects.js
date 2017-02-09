@@ -1,8 +1,8 @@
 /*
 * @Author: gbk
 * @Date:   2017-01-19 20:20:58
-* @Last Modified by:   gbk
-* @Last Modified time: 2017-01-23 15:04:13
+* @Last Modified by:   Tommy Troy Lin
+* @Last Modified time: 2017-02-08 18:06:34
 */
 
 'use strict';
@@ -15,9 +15,9 @@ var resolveCwd = require('resolve-cwd');
 
 var util = require('./util');
 
-module.exports = function(root, injects) {
+module.exports = function (root, injects) {
   root = path.resolve(root);
-  injects = (injects || []).map(function(inject) {
+  injects = (injects || []).map(function (inject) {
     var res = (resolveCwd(inject) || inject).replace(process.cwd(), '');
     if (/\.css$/.test(res)) {
       return '<link rel="stylesheet" href="' + res + '" />';
@@ -28,7 +28,7 @@ module.exports = function(root, injects) {
   if (util.isDirectory(root) && injects.length) {
 
     // root must be a directory
-    return function(req, res, next) {
+    return function (req, res, next) {
       var pathname = parseUrl(req).pathname;
       if (pathname.substr(-1) === '/') {
         pathname += 'index.html';
@@ -37,14 +37,9 @@ module.exports = function(root, injects) {
         var file = path.join(root, pathname);
         try {
           var content = fs.readFileSync(file).toString();
-          if (/<\/title>/i.test(content)) {
-            content = content.replace(/<\/title>/i, '</title>' + injects);
-          } else if (/<link([^>]*)>/i.test(content)) {
-            content = content.replace(/<link([^>]*)>/i, injects + '<link$1>');
-          } else if (/<body([^>]*)>/i.test(content)) {
-            content = content.replace(/<body([^>]*)>/i, '<body$1>' + injects);
-          } else {
-            content = injects + content;
+          var injectionComment = /<!--\s*Nowa\s*Server\s*Injects\s*-->/i;
+          if (injectionComment.test(content)) {
+            content = content.replace(injectionComment, injects);
           }
           res.end(content);
         } catch (e) {
@@ -58,7 +53,7 @@ module.exports = function(root, injects) {
   } else {
 
     // is not, do nothing
-    return function(req, res, next) {
+    return function (req, res, next) {
       next();
     };
 
