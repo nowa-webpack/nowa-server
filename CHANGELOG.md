@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.11.1 (2017-03-09)
+
+* [feature] Add process info.
+
+> https://github.com/nowa-webpack/nowa-server/issues/18
+
 ## 1.10.3 (2017-02-09)
 
 * [improve] Add inject point.

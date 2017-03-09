@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2016-05-02 17:15:36
 * @Last Modified by:   gbk
-* @Last Modified time: 2017-03-09 19:41:15
+* @Last Modified time: 2017-03-09 19:56:25
 */
 
 'use strict';
@@ -179,7 +179,7 @@ var util = {
   // write process info
   writeProcessInfo: function(info) {
     try {
-      var infoPath = path.join(os.tmpdir(), '.nowa-server-' + info.uid);
+      var infoPath = path.join(os.tmpdir(), '.nowa-server-' + info.uid + '.json');
       fs.writeFileSync(infoPath, JSON.stringify(info, null, '  '));
       return info;
     } catch (e) {
