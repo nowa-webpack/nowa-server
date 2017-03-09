@@ -2,11 +2,12 @@
 * @Author: gbk
 * @Date:   2016-05-02 17:15:36
 * @Last Modified by:   gbk
-* @Last Modified time: 2017-01-19 21:06:48
+* @Last Modified time: 2017-03-09 19:41:15
 */
 
 'use strict';
 
+var os = require('os');
 var fs = require('fs');
 var path = require('path');
 var spawn = require('child_process').spawn;
@@ -173,6 +174,18 @@ var util = {
     } catch (e) {
       return false;
     }
+  },
+
+  // write process info
+  writeProcessInfo: function(info) {
+    try {
+      var infoPath = path.join(os.tmpdir(), '.nowa-server-' + info.uid);
+      fs.writeFileSync(infoPath, JSON.stringify(info, null, '  '));
+      return info;
+    } catch (e) {
+      return null;
+    }
+
   },
 };
 

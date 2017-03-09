@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2017-01-19 21:31:32
+* @Last Modified time: 2017-03-09 19:40:24
 */
 
 'use strict';
@@ -103,6 +103,12 @@ module.exports = {
         open = true;
       }
       var address = (httpsOpt ? 'https' : 'http') + '://' + ipAddr + ':' + port;
+      if (process.env.NOWA_UID) {
+        util.writeProcessInfo({
+          uid: process.env.NOWA_UID,
+          address: address
+        });
+      }
 
       // entries
       var entries = {
