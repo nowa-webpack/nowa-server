@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2017-03-09 19:40:24
+* @Last Modified time: 2017-03-12 16:09:08
 */
 
 'use strict';
@@ -37,7 +37,7 @@ module.exports = {
     [ '    --host <host>', 'server host default to first private ip'],
     [ '-p, --port <port>', 'server port, default to `3000`', 3000 ],
     [ '-e  --entry <file>', 'app entry, default to `app/app.js`', 'app/app.js' ],
-    [ '    --pages', 'add multi-page entries' ],
+    [ '    --pages [pages]', 'add multi-page entries' ],
     [ '    --vars', 'runtime context varibles' ],
     [ '    --buildvars', 'build varibles' ],
     [ '-r, --proxy', 'dev proxy hostname or mappings' ],
@@ -139,7 +139,7 @@ module.exports = {
         entry: pages ? util.makePageEntries({
           lazyload: lazyload,
           address: address
-        }, src, entries) : entries,
+        }, src, entries, pages) : entries,
         output: {
           path: util.cwdPath(dist),
           filename: '[name]' + util.suffixByVars(vars, buildvars) + '.js',
@@ -305,7 +305,7 @@ module.exports = {
           util.makePageEntries({
             lazyload: lazyload,
             address: address
-          }, src, newEntries);
+          }, src, newEntries, pages);
           if (JSON.stringify(newEntries) !== JSON.stringify(compiler.entry)) {
             compiler.entry = newEntries;
             webpackCompiler = webpack(compiler);

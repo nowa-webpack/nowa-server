@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.12.0 (2017-03-12)
+
+* [feature] Support page filter to add specified pages to entry.
+
+> https://github.com/nowa-webpack/nowa/issues/35
+
 ## 1.11.1 (2017-03-09)
 
 * [feature] Add process info.

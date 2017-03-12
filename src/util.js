@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2016-05-02 17:15:36
 * @Last Modified by:   gbk
-* @Last Modified time: 2017-03-09 19:56:25
+* @Last Modified time: 2017-03-12 16:15:32
 */
 
 'use strict';
@@ -43,8 +43,14 @@ var util = {
   },
 
   // make all valid pages as webpack entries
-  makePageEntries: function(options, src, entries) {
+  makePageEntries: function(options, src, entries, pagesFilter) {
     var pages = fs.readdirSync(path.join(src, 'pages'));
+    if (typeof pagesFilter === 'string') {
+      pagesFilter = pagesFilter.split(',');
+      pages = pages.filter(function(page) {
+        return pagesFilter.indexOf(page) !== -1;
+      });
+    }
     pages.forEach(function(page) {
       try {
         var entry = path.join(src, 'pages', page, 'index.js');
