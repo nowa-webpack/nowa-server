@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2017-03-12 16:09:08
+* @Last Modified time: 2017-03-16 17:46:45
 */
 
 'use strict';
@@ -40,7 +40,7 @@ module.exports = {
     [ '    --pages [pages]', 'add multi-page entries' ],
     [ '    --vars', 'runtime context varibles' ],
     [ '    --buildvars', 'build varibles' ],
-    [ '-r, --proxy', 'dev proxy hostname or mappings' ],
+    [ '-r, --proxy <proxy>', 'dev proxy hostname or mappings' ],
     [ '-k, --keepcss', 'keep flush css files' ],
     [ '-l, --lazyload', 'disable hot reload' ],
     [ '-h, --https', 'start https server' ],
@@ -259,16 +259,23 @@ module.exports = {
       app.use(serveStatic('.'));
 
       // http proxy
-      var httpProxyOpts =  {
-        forwardPath: function(req) {
-          return url.parse(req.originalUrl).path;
+      var proxyMiddleware = function(proxy) {
+        if (!/https?:\/\//.test(proxy)) {
+          proxy = 'http://' + proxy;
         }
-      };
+        var parsedUrl = url.parse(proxy);
+        var pathPrefix = parsedUrl.path === '/' ? '' : parsedUrl.path;
+        return httpProxy(parsedUrl.protocol + '//' + parsedUrl.host, {
+          forwardPath: function(req) {
+            return pathPrefix + url.parse(req.originalUrl).path;
+          }
+        });
+      }
       if (typeof proxy === 'string') {
-        app.use('*', httpProxy(proxy, httpProxyOpts));
+        app.use('*', proxyMiddleware(proxy));
       } else if (typeof proxy === 'object') {
         for (var pattern in proxy) {
-          app.use(pattern, httpProxy(proxy[pattern], httpProxyOpts));
+          app.use(pattern, proxyMiddleware(proxy[pattern]));
         }
       }
 

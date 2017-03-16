@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.14.0 (2017-03-16)
+
+* [feature] Proxy support rewrite path.
+
+> https://github.com/nowa-webpack/nowa/issues/39
+
 ## 1.13.0 (2017-03-16)
 
 * [feature] Add transform-decorators plugin.
