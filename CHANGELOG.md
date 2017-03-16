@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.13.0 (2017-03-16)
+
+* [feature] Add transform-decorators plugin.
+
+> https://github.com/nowa-webpack/nowa/issues/38
+
 ## 1.12.0 (2017-03-12)
 
 * [feature] Support page filter to add specified pages to entry.

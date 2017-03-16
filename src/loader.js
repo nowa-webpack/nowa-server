@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2016-05-02 22:07:46
 * @Last Modified by:   gbk
-* @Last Modified time: 2017-01-17 21:02:17
+* @Last Modified time: 2017-03-16 14:31:24
 */
 
 'use strict';
@@ -40,6 +40,7 @@ module.exports = function(options) {
     query: options.lazyload ? {
       plugins: util.babel('plugin', [
         'add-module-exports',
+        'transform-decorators-legacy',
         'transform-es3-member-expression-literals',
         'transform-es3-property-literals',
         {
@@ -57,6 +58,7 @@ module.exports = function(options) {
     } : {
       plugins: util.babel('plugin', [
         'add-module-exports',
+        'transform-decorators-legacy',
         {
           name: 'transform-runtime',
           options: {
