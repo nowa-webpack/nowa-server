@@ -53,6 +53,7 @@ module.exports = {
     [ '    --polyfill', 'use core-js to do polyfills' ],
     [ '    --alias', 'path alias' ],
     [ '    --injects', 'inject js into html' ],
+    [ '    --no-sourcemap', 'don\'t use the `SourceMapDevToolPlugin` of plugins to debug' ],
   ],
 
   action: function(options) {
@@ -80,6 +81,7 @@ module.exports = {
     var includes = options.includes;
     var polyfill = !!options.polyfill;
     var host =  options.host;
+    var sourcemap = options.sourcemap;
     var alias = (function(aliasMap) {
       for (var key in aliasMap) {
         aliasMap[key] = util.cwdPath(src, aliasMap[key]);
@@ -121,10 +123,14 @@ module.exports = {
       // plugins
       var plugins = [
         new webpack.NoErrorsPlugin(),
-        new webpack.SourceMapDevToolPlugin({
-          module: false
-        })
       ];
+      if (sourcemap) {
+        plugins.push(
+          new webpack.SourceMapDevToolPlugin({
+            module: false
+          })
+        );
+      }
       vars && plugins.push(new webpack.DefinePlugin(util.parseVars(vars)));
       !lazyload && plugins.push(new webpack.HotModuleReplacementPlugin());
 
