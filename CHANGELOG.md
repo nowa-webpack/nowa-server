@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.15.0 (2017-04-21)
+
+* [feature] Add `--no-sourcemap` option to disable sourcemap.
+
+> https://github.com/nowa-webpack/nowa-server/pull/19
+
+## 1.14.1 (2017-03-20)
+
+* [fix] Update react version to resolve peerDependencies issue.
+
 ## 1.14.0 (2017-03-16)
 
 * [feature] Proxy support rewrite path.
