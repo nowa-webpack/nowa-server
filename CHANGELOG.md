@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.15.2 (2017-05-11)
+
+* [fix] Revert to 1.15.0.
+
 ## 1.15.1 (2017-05-10)
 
 * [fix] .ts files support jsx.
