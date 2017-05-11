@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2016-05-02 22:07:46
 * @Last Modified by:   gbk
-* @Last Modified time: 2017-05-10 23:43:00
+* @Last Modified time: 2017-05-11 18:05:33
 */
 
 'use strict';
@@ -34,7 +34,7 @@ module.exports = function(options) {
   ]);
   var cacheDirectory = path.join(os.tmpdir(), options.loose ? 'babel-loose' : 'babel-strict');
   return [{
-    test: /\.[jt]sx?$/,
+    test: /\.jsx?$/,
     loader: 'babel-loader',
     include: srcPath,
     query: options.lazyload ? {
