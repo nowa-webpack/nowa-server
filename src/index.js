@@ -2,7 +2,7 @@
 * @Author: gbk <ck0123456@gmail.com>
 * @Date:   2016-04-21 17:34:00
 * @Last Modified by:   gbk
-* @Last Modified time: 2017-03-16 17:46:45
+* @Last Modified time: 2017-05-18 00:32:03
 */
 
 'use strict';
@@ -337,7 +337,7 @@ module.exports = {
 function preProcess(config) {
   var newConfig;
   try {
-    newConfig = require(util.cwdPath('webpack.config.js'))(config);
+    newConfig = require(util.cwdPath('webpack.config.js'))(config, webpack);
   } catch (e) {
   }
   return newConfig || config;
