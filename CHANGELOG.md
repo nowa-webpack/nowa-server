@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.17.0 (2017-06-21)
+
+* [feature] Support IE<=10 `static extends` on `loose` mode.
+
 ## 1.16.0 (2017-05-18)
 
 * [feature] Inject `webpack` to user defined config.

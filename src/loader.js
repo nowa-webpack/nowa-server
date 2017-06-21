@@ -2,7 +2,7 @@
 * @Author: gbk
 * @Date:   2016-05-02 22:07:46
 * @Last Modified by:   gbk
-* @Last Modified time: 2017-05-11 18:05:33
+* @Last Modified time: 2017-06-21 20:00:57
 */
 
 'use strict';
@@ -33,25 +33,29 @@ module.exports = function(options) {
     'react'
   ]);
   var cacheDirectory = path.join(os.tmpdir(), options.loose ? 'babel-loose' : 'babel-strict');
+  var plugins = [
+    'add-module-exports',
+    'transform-decorators-legacy',
+    'transform-es3-member-expression-literals',
+    'transform-es3-property-literals',
+    {
+      name: 'transform-runtime',
+      options: {
+        polyfill: !!options.polyfill,
+        helpers: false,
+        regenerator: true
+      }
+    }
+  ];
+  if (options.loose) {
+    plugins.push('transform-proto-to-assign');
+  }
   return [{
     test: /\.jsx?$/,
     loader: 'babel-loader',
     include: srcPath,
     query: options.lazyload ? {
-      plugins: util.babel('plugin', [
-        'add-module-exports',
-        'transform-decorators-legacy',
-        'transform-es3-member-expression-literals',
-        'transform-es3-property-literals',
-        {
-          name: 'transform-runtime',
-          options: {
-            polyfill: !!options.polyfill,
-            helpers: false,
-            regenerator: true
-          }
-        }
-      ]),
+      plugins: util.babel('plugin', plugins),
       presets: presets,
       cacheDirectory: cacheDirectory,
       babelrc: false
