@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.18.0 (2017-09-05)
+
+* [feature] Update version of ts-loader.
+
 ## 1.17.0 (2017-06-21)
 
 * [feature] Support IE<=10 `static extends` on `loose` mode.
