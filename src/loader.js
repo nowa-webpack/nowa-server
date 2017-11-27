@@ -100,19 +100,15 @@ module.exports = function(options) {
   }, {
     test: /\.css$/,
     loader: preLoader + '!css-loader?sourceMap',
-    include: srcPath
   }, {
     test: /\.less$/,
     loader: preLoader + '!css-loader?sourceMap!less-loader',
-    include: srcPath
   }, {
     test: /\.styl$/,
     loader: preLoader + '!css-loader?sourceMap!stylus-loader',
-    include: srcPath
   }, {
     test: /\.svg$/,
     loader: 'babel-loader',
-    include: srcPath,
     query: {
       presets: presets,
       cacheDirectory: cacheDirectory,
@@ -121,15 +117,12 @@ module.exports = function(options) {
   }, {
     test: /\.svg$/,
     loader: 'svg2react-loader',
-    include: srcPath
   }, {
     test: /\.json$/,
     loader: 'json-loader',
-    include: srcPath
   }, {
     test: /\.(png|jpe?g|gif|woff|woff2|ttf|otf)$/,
     loader: 'url-loader',
-    include: srcPath
   },{
     test: /\.tsx?$/,
     loader: 'ts-loader',
