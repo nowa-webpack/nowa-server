@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.19.0 (2017-11-17)
+
+* [feature] Remove include restriction for several loader.
+
+> https://github.com/nowa-webpack/nowa-server/pull/20
+
 ## 1.18.0 (2017-09-05)
 
 * [feature] Update version of ts-loader.
