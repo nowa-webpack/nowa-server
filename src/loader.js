@@ -38,6 +38,7 @@ module.exports = function(options) {
     'transform-decorators-legacy',
     'transform-es3-member-expression-literals',
     'transform-es3-property-literals',
+    options.loose && 'transform-proto-to-assign',
     {
       name: 'transform-runtime',
       options: {
@@ -46,10 +47,7 @@ module.exports = function(options) {
         regenerator: true
       }
     }
-  ];
-  if (options.loose) {
-    plugins.push('transform-proto-to-assign');
-  }
+  ].filter(Boolean);
   return [{
     test: /\.jsx?$/,
     loader: 'babel-loader',
@@ -63,6 +61,7 @@ module.exports = function(options) {
       plugins: util.babel('plugin', [
         'add-module-exports',
         'transform-decorators-legacy',
+        options.loose && 'transform-proto-to-assign',
         {
           name: 'transform-runtime',
           options: {
@@ -86,7 +85,7 @@ module.exports = function(options) {
             ]
           }
         }
-      ]),
+      ].filter(Boolean)),
       presets: presets,
       cacheDirectory: cacheDirectory,
       babelrc: false
