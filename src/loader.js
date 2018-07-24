@@ -70,7 +70,7 @@ module.exports = function(options) {
             regenerator: true
           }
         },
-        {
+        options.redbox && {
           name: 'react-transform',
           options: {
             transforms: [

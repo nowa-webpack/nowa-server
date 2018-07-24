@@ -54,6 +54,7 @@ module.exports = {
     [ '    --alias', 'path alias' ],
     [ '    --injects', 'inject js into html' ],
     [ '    --no-sourcemap', 'don\'t use the `SourceMapDevToolPlugin` of plugins to debug' ],
+    [ '    --no-redbox', 'don\'t use the `RedBox` to capture React errors' ],
   ],
 
   action: function(options) {
@@ -272,7 +273,7 @@ module.exports = {
         var parsedUrl = url.parse(proxy);
         var pathPrefix = parsedUrl.path === '/' ? '' : parsedUrl.path;
         return httpProxy(parsedUrl.protocol + '//' + parsedUrl.host, {
-          forwardPath: function(req) {
+          proxyReqPathResolver: function(req) {
             return pathPrefix + url.parse(req.originalUrl).path;
           }
         });
